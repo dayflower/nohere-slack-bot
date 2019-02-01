@@ -1,3 +1,3 @@
-const { runNoHereBot } = require('./index.js')
+const { runNoHereBot } = require('../index.js')
 
 runNoHereBot()
