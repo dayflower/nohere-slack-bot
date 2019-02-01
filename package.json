@@ -4,6 +4,7 @@
   "description": "nohere slack bot",
   "repository": "github:dayflower/nohere-slack-bot",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
