@@ -3,7 +3,7 @@ const { RTMClient, WebClient } = require('@slack/client')
 let Redis
 try {
   Redis = require('ioredis')
-} catch {
+} catch(e) {
 }
 
 const defaultWarningMessage = 'Do not use either <!here> or <!channel> here.'
