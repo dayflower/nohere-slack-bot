@@ -6,6 +6,7 @@
   "main": "index.js",
   "private": true,
   "scripts": {
+    "start": "node examples/bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "dayflower (https://github.com/dayflower/)",
