@@ -52,6 +52,16 @@ class MemorySettingRepository {
     const store = this._getStore(channel)
     store['members'] = []
   }
+
+  async getPublicMode(channel) {
+    const store = this._getStore(channel)
+    return store.hasOwnProperty('public') ? store.public : false
+  }
+
+  async setPublicMode(channel, mode) {
+    const store = this._getStore(channel)
+    this._getStore(channel)['public'] = mode
+  }
 }
 
 class RedisSettingRepository {
@@ -87,6 +97,17 @@ class RedisSettingRepository {
 
   async revokeAll(channel) {
     this.redis.del(`${channel}:members`)
+  }
+
+  async getPublicMode(channel) {
+    return this.redis.get(`${channel}:public`)
+      .then(mode => {
+        return mode !== null && mode !== undefined ? mode === 'true' : false
+      })
+  }
+
+  async setPublicMode(channel, mode) {
+    this.redis.set(`${channel}:public`, mode)
   }
 }
 
@@ -140,9 +161,11 @@ class NoHereBotMessageHandler {
 
     if (text.match(/<!(?:here|channel)>/) !== null) {
       if (!await this.isSenderAllowedAtHere()) {
+        const isPublic = await this.repository.getPublicMode(this.channel)
+
         return this.postMessage({
           text: await this.repository.getMessage(this.channel),
-          private: true
+          private: !isPublic
         })
       }
       return
@@ -186,6 +209,15 @@ class NoHereBotMessageHandler {
 
     if (command.match(/^(?:granted|permitted|allowed|approved)$/) !== null) {
       return this.handleGrantedCommand()
+    }
+
+    if ((matches = command.match(/^public\s+(on|off|true|false)$/)) !== null) {
+      const mode = matches[1] === 'on' || matches[1] === 'true'
+      return this.handleSetPublicModeCommand(mode)
+    }
+
+    if ((matches = command.match(/^public\s*$/)) !== null) {
+      return this.handleGetPublicModeCommand()
     }
 
     this.postMessage({
@@ -263,6 +295,24 @@ class NoHereBotMessageHandler {
     }
   }
 
+  async handleGetPublicModeCommand() {
+    const mode = await this.repository.getPublicMode(this.channel)
+
+    return this.postMessage({
+      text: `Public mode is "${mode}"`,
+      private: false
+    })
+  }
+
+  async handleSetPublicModeCommand(mode) {
+    await this.repository.setPublicMode(this.channel, mode)
+
+    return this.postMessage({
+      text: `Public mode was set as "${mode}"`,
+      private: false
+    })
+  }
+
   async usage(isPrivate = false) {
     const botUserIdMention = `<@${this.botUserId}>`
 
@@ -275,6 +325,8 @@ class NoHereBotMessageHandler {
       |  ${botUserIdMention} revoke @user [@others ...]
       |  ${botUserIdMention} revoke all
       |  ${botUserIdMention} granted
+      |  ${botUserIdMention} public
+      |  ${botUserIdMention} public (on|off)
       |  ${botUserIdMention} help
     `.replace(/^\s*\|/gm, '').replace(/^\s*$/, '')
 
