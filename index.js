@@ -368,9 +368,24 @@ class NoHereBot {
   async handleMessageEvent(message) {
     const botUserId = this.rtm.activeUserId
 
-    if ((message.subtype && message.subtype === 'bot_message') ||
-      (!message.subtype && message.user === botUserId) ||
-      (message.hidden)) {
+    if (message.hidden) {
+      return
+    }
+
+    if (!message.subtype) {
+      if (message.user === botUserId) {
+        return
+      }
+      if (message.user === 'USLACKBOT') {
+        return
+      }
+    }
+
+    if (message.subtype && message.subtype === 'bot_message') {
+      return
+    }
+
+    if (message.subtype && message.subtype === 'channel_join') {
       return
     }
 
