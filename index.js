@@ -188,7 +188,7 @@ class NoHereBotMessageHandler {
       return this.handleGetMessageCommand()
     }
 
-    const memberRegex = '<@U[0-9A-Z]+>'
+    const memberRegex = '<@[UW][0-9A-Z]+>'
     const membersRegex = String.raw`${memberRegex}(?:\s*,?\s*${memberRegex})*`
 
     if ((matches = command.match(new RegExp(String.raw`(?:grant|permit|allow|approve)\s+(${membersRegex})$`))) !== null) {
