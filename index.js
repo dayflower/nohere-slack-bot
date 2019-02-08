@@ -220,6 +220,10 @@ class NoHereBotMessageHandler {
       return this.handleGetPublicModeCommand()
     }
 
+    if ((matches = command.match(/^test\s*$/)) !== null) {
+      return this.handleTestCommand()
+    }
+
     this.postMessage({
       text: 'Invalid command'
     })
@@ -313,6 +317,15 @@ class NoHereBotMessageHandler {
     })
   }
 
+  async handleTestCommand(mode) {
+    const isPublic = await this.repository.getPublicMode(this.channel)
+
+    return this.postMessage({
+      text: await this.repository.getMessage(this.channel),
+      private: !isPublic
+    })
+  }
+
   async usage(isPrivate = false) {
     const botUserIdMention = `<@${this.botUserId}>`
 
@@ -327,6 +340,7 @@ class NoHereBotMessageHandler {
       |  ${botUserIdMention} granted
       |  ${botUserIdMention} public
       |  ${botUserIdMention} public (on|off)
+      |  ${botUserIdMention} test
       |  ${botUserIdMention} help
     `.replace(/^\s*\|/gm, '').replace(/^\s*$/, '')
 
