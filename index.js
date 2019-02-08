@@ -3,7 +3,7 @@ const { RTMClient, WebClient } = require('@slack/client')
 let Redis
 try {
   Redis = require('ioredis')
-} catch(e) {
+} catch (e) {
 }
 
 const defaultWarningMessage = 'Do not use either <!here> or <!channel> here.'
@@ -330,18 +330,31 @@ class NoHereBotMessageHandler {
     const botUserIdMention = `<@${this.botUserId}>`
 
     const helpMessage = `
+      |${botUserIdMention}: bot which warns when somebody uses \`@here\` / \`@channel\`
+      |
       |usage
       |  ${botUserIdMention} message <message>
+      |    Set warning message
       |  ${botUserIdMention} message ""
+      |    Reset warning message
       |  ${botUserIdMention} message
-      |  ${botUserIdMention} grant @user [@others ...]
-      |  ${botUserIdMention} revoke @user [@others ...]
+      |    Show warning message
+      |  ${botUserIdMention} grant \`@user\` [\`@others\` ...]
+      |    Grant user to use \`@here\` / \`@channel\`
+      |  ${botUserIdMention} revoke \`@user\` [\`@others\` ...]
+      |    Revoke user from using \`@here\` / \`@channel\`
       |  ${botUserIdMention} revoke all
+      |    Revoke all users
       |  ${botUserIdMention} granted
+      |    Show granted users
+      |  ${botUserIdMention} public (on|off) (default: off)
+      |    Set public mode.  If public mode is on, warning message will be posted globally.
       |  ${botUserIdMention} public
-      |  ${botUserIdMention} public (on|off)
+      |    Show public mode
       |  ${botUserIdMention} test
+      |    Test warning message
       |  ${botUserIdMention} help
+      |    Show this help message
     `.replace(/^\s*\|/gm, '').replace(/^\s*$/, '')
 
     return this.postMessage({
@@ -412,12 +425,10 @@ class NoHereBot {
         {
           channel: message.channel,
           user: message.user,
-        },
-        params,
-        {
           link_names: true,
           as_user: true
-        }
+        },
+        params
       )
 
       const isPrivate = args.private || false
