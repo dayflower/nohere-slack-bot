@@ -234,9 +234,14 @@ class NoHereBotMessageHandler {
   async handleSetMessageCommand(message) {
     await this.repository.setMessage(this.channel, message)
 
-    return this.postMessage({
+    await this.postMessage({
       text: `Warning message was set as "${message}"`,
       private: true
+    })
+
+    return this.postMessage({
+      text: `Warning message has been updated`,
+      private: false
     })
   }
 
@@ -257,7 +262,7 @@ class NoHereBotMessageHandler {
 
     return this.postMessage({
       text: `Following users were granted: ${grantedUsers.join(' ')}`,
-      private: true
+      private: false
     })
   }
 
@@ -271,7 +276,7 @@ class NoHereBotMessageHandler {
 
     return this.postMessage({
       text: `Following users were revoked: ${revokedUsers.join(' ')}`,
-      private: true
+      private: false
     })
   }
 
@@ -280,7 +285,7 @@ class NoHereBotMessageHandler {
 
     return this.postMessage({
       text: `All users were revoked`,
-      private: true
+      private: false
     })
   }
 
@@ -290,12 +295,12 @@ class NoHereBotMessageHandler {
     if (grantedUsers.length === 0) {
       return this.postMessage({
         text: 'No user granted',
-        private: true
+        private: false
       })
     } else {
       return this.postMessage({
         text: `Following users are granted: ${grantedUsers.join(' ')}`,
-        private: true
+        private: false
       })
     }
   }
