@@ -334,9 +334,13 @@ class NoHereBotMessageHandler {
 
   async usage(isPrivate = false) {
     const botUserIdMention = `<@${this.botUserId}>`
+    const atHere = '`@\u{200b}here`'
+    const atChannel = '`@\u{200b}channel`'
+    const atUser = '`@\u{200b}user`'
+    const atOthers = '`@\u{200b}others`'
 
     const helpMessage = `
-      |${botUserIdMention}: bot which warns when somebody uses \`@​here\` / \`@​channel\`
+      |${botUserIdMention}: warn when somebody uses ${atHere} / ${atChannel}
       |
       |usage
       |  ${botUserIdMention} message <message>
@@ -345,10 +349,10 @@ class NoHereBotMessageHandler {
       |    Reset warning message
       |  ${botUserIdMention} message
       |    Show warning message
-      |  ${botUserIdMention} grant \`@​user\` [\`@​others\` ...]
-      |    Grant user to use \`@​here\` / \`@​channel\`
-      |  ${botUserIdMention} revoke \`@​user\` [\`@​others\` ...]
-      |    Revoke user from using \`@​here\` / \`@​channel\`
+      |  ${botUserIdMention} grant ${atUser} [${atOthers} ...]
+      |    Grant user to use ${atHere} / ${atChannel}
+      |  ${botUserIdMention} revoke ${atUser} [${atOthers} ...]
+      |    Revoke user from using ${atHere} / ${atChannel}
       |  ${botUserIdMention} revoke all
       |    Revoke all users
       |  ${botUserIdMention} granted
