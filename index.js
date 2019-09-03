@@ -331,7 +331,7 @@ class NoHereBotMessageHandler {
     const botUserIdMention = `<@${this.botUserId}>`
 
     const helpMessage = `
-      |${botUserIdMention}: bot which warns when somebody uses \`@here\` / \`@channel\`
+      |${botUserIdMention}: bot which warns when somebody uses \`@​here\` / \`@​channel\`
       |
       |usage
       |  ${botUserIdMention} message <message>
@@ -340,10 +340,10 @@ class NoHereBotMessageHandler {
       |    Reset warning message
       |  ${botUserIdMention} message
       |    Show warning message
-      |  ${botUserIdMention} grant \`@user\` [\`@others\` ...]
-      |    Grant user to use \`@here\` / \`@channel\`
-      |  ${botUserIdMention} revoke \`@user\` [\`@others\` ...]
-      |    Revoke user from using \`@here\` / \`@channel\`
+      |  ${botUserIdMention} grant \`@​user\` [\`@​others\` ...]
+      |    Grant user to use \`@​here\` / \`@​channel\`
+      |  ${botUserIdMention} revoke \`@​user\` [\`@​others\` ...]
+      |    Revoke user from using \`@​here\` / \`@​channel\`
       |  ${botUserIdMention} revoke all
       |    Revoke all users
       |  ${botUserIdMention} granted
