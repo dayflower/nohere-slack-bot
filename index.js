@@ -1,4 +1,5 @@
-const { RTMClient, WebClient } = require('@slack/client')
+const { WebClient } = require('@slack/web-api')
+const { RTMClient } = require('@slack/rtm-api')
 
 let Redis
 try {

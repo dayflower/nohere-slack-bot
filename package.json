@@ -12,9 +12,10 @@
   "author": "dayflower (https://github.com/dayflower/)",
   "license": "ISC",
   "dependencies": {
-    "@slack/client": "^4.8.0"
+    "@slack/rtm-api": "^5.0.2",
+    "@slack/web-api": "^5.1.0"
   },
   "optionalDependencies": {
-    "ioredis": "^4.5.1"
+    "ioredis": "^4.14.0"
   }
 }
