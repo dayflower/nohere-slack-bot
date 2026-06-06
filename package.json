@@ -13,9 +13,9 @@
   "license": "ISC",
   "dependencies": {
     "@slack/rtm-api": "^7.0.4",
-    "@slack/web-api": "^7.15.1"
+    "@slack/web-api": "^7.16.0"
   },
   "optionalDependencies": {
-    "ioredis": "^5.10.1"
+    "ioredis": "^5.11.1"
   }
 }
